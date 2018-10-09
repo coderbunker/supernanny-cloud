@@ -106,6 +106,7 @@ CREATE USER <USER> WITH PASSWORD '<PASSWORD>' WITH ALL PRIVILEGES
 Creating non-admin user:
 ```
 CREATE USER <USER> WITH PASSWORD '<PASSWORD>'
+GRANT [READ,WRITE,ALL] ON <database_name> TO <username>
 ```
 More at: https://docs.influxdata.com/influxdb/v1.6/administration/authentication_and_authorization/
 
