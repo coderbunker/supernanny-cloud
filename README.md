@@ -16,7 +16,7 @@ systemctl start firewalld
 
 ## Install Nginx Proxy
 ### Add nginx repository
->> NOTE: The enabled flag is set to 0 to disable the repository.
+> NOTE: The enabled flag is set to 0 to disable the repository.
    The reason for that is to prevent auto update of the influxdb if the os gets patched/updated by yum update/upgrade.
    To install/update the influxdb packages the --enablerepo=nginx flag needs to be used
 ```
@@ -35,7 +35,7 @@ yum install nginx --enablerepo=nginx
 systemctl enable nginx
 systemctl start nginx
 ```
-### Install certbot to get free ssl certs
+### Install certbot to get free letsencrypt ssl certs
 ```
 yum install epel-release
 yum-config-manager --disable epel
@@ -50,7 +50,7 @@ yum install python2-certbot-nginx --enablerepo=epel
 
 ## Install InfluxDB
 ### Add InfluxDB Repository
->> NOTE: The enabled flag is set to 0 to disable the repository.
+> NOTE: The enabled flag is set to 0 to disable the repository.
    The reason for that is to prevent auto update of the influxdb if the os gets patched/updated by yum update/upgrade.
    To install/update the influxdb packages the --enablerepo=influxdb flag needs to be used
 ```
@@ -145,10 +145,57 @@ firewall-cmd --reload
 ```
 
 ## Configure Chronograf
+### Manipulate chronograf's systemd service
+We need to manipulate chronografs systemd service. The reason for this is, that chronograf hasn't a config file. So it can be configured with system enviroment variables or with the command line parameters during startup.
+> We prefere comannd line parameters because they are presistent
+Copy the systemd file to the new location
+```
+cp  /usr/lib/systemd/system/chronograf.service /etc/systemd/system/chronograf.service
+```
+Manipulate the new systemd file as follows:
+```
+vi /etc/systemd/system/chronograf.service
+
+# If you modify this, please also make sure to edit init.sh
+
+[Unit]
+Description=Open source monitoring and visualization UI for the entire TICK stack.
+Documentation="https://www.influxdata.com/time-series-platform/chronograf/"
+After=network-online.target
+
+[Service]
+User=chronograf
+Group=chronograf
+#Environment="HOST=0.0.0.0"
+Environment="HOST=127.0.0.1"
+Environment="PORT=8888"
+Environment="BOLT_PATH=/var/lib/chronograf/chronograf-v1.db"
+Environment="CANNED_PATH=/usr/share/chronograf/canned"
+EnvironmentFile=-/etc/default/chronograf
+ExecStart=/usr/bin/chronograf $CHRONOGRAF_OPTS
+KillMode=control-group
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+```
+Reload systemd and activate the changes
+```
+systemctl daemon-reload
+systemctl enable chronograf
+systemctl start chronograf
+```
+
+### Create nginx config for chronograf
+```
+systemctl daemon-reload
+systemctl enable chronograf
+systemctl start chronograf
+```
 
 
-
-
+### Get letsencrypt certificate for chronograf
 
 
 
