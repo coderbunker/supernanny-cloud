@@ -227,6 +227,139 @@ sudo apt install influxdb telegraf
 
 ```
 
+## Configuration of /etc/telegraf/telegraf.conf
+```
+[[outputs.influxdb]]
+  urls = ["https://influxdb01.monitor.agora-space.com:8066"]
+  database = "telegraf"
+  skip_database_creation = false
+  retention_policy = ""
+  write_consistency = "any"
+  timeout = "10s"
+  username = "telegraf"
+  password = "******"
+  user_agent = "telegraf"
+  content_encoding = "identity"
 
+[[inputs.http_response]]
+    name_override = "google_https"
+    address = "https://www.google.com/search"
+    response_timeout = "10s"
+    method = "GET"
+    follow_redirects = true
+    [[inputs.http_response.tags]]
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.http_response]]
+    name_override = "google_docs_https"
+    address = "https://docs.google.com/"
+    response_timeout = "10s"
+    method = "GET"
+    follow_redirects = true
+    [[inputs.http_response.tags]]
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.http_response]]
+    name_override = "facebook_https"
+    address = "https://facebook.com/"
+    response_timeout = "10s"
+    method = "GET"
+    follow_redirects = true
+    [[inputs.http_response.tags]]
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["8.8.8.8"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "google_dns_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["gitlab.com"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "gitlab_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["github.com"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "github_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["www.pypi.org"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "pypi_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["www.slack.com"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "slack_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["10.1.0.1"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "router_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["10.1.0.2"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "gateway_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["10.1.0.64"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "hp_printer_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+
+[[inputs.ping]]
+    urls = ["10.1.0.104"]
+    count = 5
+    ping_interval = 1.0
+    timeout = 10.0
+    [inputs.ping.tags]
+        name = "brother_printer_icmp"
+        location = "coderbunker"
+        room = "bunker-1"
+```
 
 
