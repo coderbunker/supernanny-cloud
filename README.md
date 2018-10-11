@@ -228,6 +228,7 @@ sudo apt install influxdb telegraf
 ```
 
 ## Configuration of /etc/telegraf/telegraf.conf
+### Connection to InfluxDB to telegraf
 ```
 [[outputs.influxdb]]
   urls = ["https://influxdb01.monitor.agora-space.com:8066"]
@@ -240,7 +241,26 @@ sudo apt install influxdb telegraf
   password = "******"
   user_agent = "telegraf"
   content_encoding = "identity"
-
+```
+### Connection to InfluxDB to the energy-monitor
+```
+[[outputs.influxdb]]
+  urls = ["https://influxdb01.monitor.agora-space.com:8066"]
+  database = "energy-monitor"
+  skip_database_creation = true
+  retention_policy = ""
+  write_consistency = "any"
+  timeout = "15s"
+  username = "energy-monitor"
+  password = "ChoendSelberOebbisWehle"
+  user_agent = "telegraf-energy"
+  content_encoding = "identity"
+  tagexclude = ["influxdb_database"]
+  [outputs.influxdb.tagpass]
+    influxdb_database = ["energy-monitor"]
+```
+### HTTP requests
+```
 [[inputs.http_response]]
     name_override = "google_https"
     address = "https://www.google.com/search"
@@ -270,7 +290,9 @@ sudo apt install influxdb telegraf
     [[inputs.http_response.tags]]
         location = "coderbunker"
         room = "bunker-1"
-
+```
+### ping requests
+```
 [[inputs.ping]]
     urls = ["8.8.8.8"]
     count = 5
@@ -361,5 +383,18 @@ sudo apt install influxdb telegraf
         location = "coderbunker"
         room = "bunker-1"
 ```
+### Arduino energy monitor UDP request acknowledge
+```
+[[inputs.socket_listener]]
+      service_address = "udp://:6969"
+      max_connections = 128
+      read_timeout = "30s"
+      read_buffer_size = 65535
+      keep_alive_period = "5m"
+      https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
+      data_format = "influx"
 
+[inputs.socket_listener.tags]
+      influxdb_database = "energy-monitor"
+```
 
