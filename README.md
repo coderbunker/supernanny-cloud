@@ -210,6 +210,17 @@ systemctl start grafana-server
 
 
 
+## Configure SELinux for the droplet
+We need to enable the following selinux booleans:
+```
+getsebool httpd_can_network_connect 
+setsebool -P httpd_can_network_connect on
+getsebool httpd_can_network_connect 
+
+getsebool nis_enabled 
+setsebool -P nis_enabled on
+getsebool nis_enabled 
+```
 
 
 
