@@ -214,11 +214,11 @@ systemctl start grafana-server
 We need to enable the following selinux booleans:
 ```
 getsebool httpd_can_network_connect 
-setsebool httpd_can_network_connect on
+setsebool -P httpd_can_network_connect on
 getsebool httpd_can_network_connect 
 
 getsebool nis_enabled 
-setsebool nis_enabled on
+setsebool -P nis_enabled on
 getsebool nis_enabled 
 ```
 
