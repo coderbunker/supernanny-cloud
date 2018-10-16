@@ -42,7 +42,13 @@ yum-config-manager --disable epel
 yum install python2-certbot-nginx --enablerepo=epel
 ```
 
-
+### Reload the firewall and enable the service permanent
+```
+firewall-cmd --reload
+firewall-cmd --add-service=http --zone=public --permanent
+firewall-cmd --add-service=https --zone=public --permanent
+firewall-cmd --reload
+```
 
 
 
@@ -81,7 +87,7 @@ vi /etc/firewalld/services/coderbunker-influxdb.xml
 <service>
   <short>CoderBunker-InfluxDB</short>
   <description>CoderBunker InfluxDB for the Super Nanny Project</description>
-  <port protocol="tcp" port="8086 "/>
+  <port protocol="tcp" port="8066"/>
 </service>
 ```
 ### Reload the firewall and enable the service permanent
@@ -92,6 +98,9 @@ firewall-cmd --reload
 ```
 
 ## Configure InfluxDB
+### Setup Databases
+
+
 ### Adding users
 We need the following users:
  - chronograf - admin
@@ -111,7 +120,7 @@ GRANT [READ,WRITE,ALL] ON <database_name> TO <username>
 More at: https://docs.influxdata.com/influxdb/v1.6/administration/authentication_and_authorization/
 
 
-
+### User - Permission matrix
 
 
 
@@ -126,24 +135,7 @@ yum install chronograf --enablerepo=influxdb
 systemctl start chronograf
 systemctl enable chronograf
 ```
-### Create firewalld service
-```
-vi /etc/firewalld/services/coderbunker-chronograf.xml
-```
-```
-<?xml version="1.0" encoding="utf-8"?>
-<service>
-  <short>CoderBunker-Chronograf</short>
-  <description>CoderBunker Chronograf for the Super Nanny Project</description>
-  <port protocol="tcp" port="8888 "/>
-</service>
-```
-### Reload the firewall and enable the service permanent
-```
-firewall-cmd --reload
-firewall-cmd --add-service=coderbunker-chronograf --zone=public --permanent
-firewall-cmd --reload
-```
+
 
 ## Configure Chronograf
 ### Manipulate chronograf's systemd service
@@ -215,6 +207,14 @@ systemctl start grafana-server
 ```
 
 ## Configure Grafana
+
+
+
+
+
+
+
+
 
 # Telegraf configuration on Raspbian
 
