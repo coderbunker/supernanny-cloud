@@ -413,7 +413,7 @@ sudo apt install telegraf
 ```
 
 ## Explanation for a new Raspberry Pi
-In order to rollout a new Raspberry Pi, you just need to install telegraf (like mentioned above) and use the telegraf.conf file in this repository. Afterwards you need to adjust this entries in the telegraf.conf file:
+In order to rollout a new Raspberry Pi, you just need to install telegraf (like mentioned above) and use the telegraf.conf file in this repository. Afterwards you need to adjust those entries in the telegraf.conf file:
 
 - [global_tags] (adjust the location & room)
 - [agent] (adjust hostname)
