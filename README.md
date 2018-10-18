@@ -412,3 +412,10 @@ sudo apt install telegraf
       influxdb_database = "energy-monitor"
 ```
 
+## Explanation for a new Raspberry Pi
+In order to rollout a new Raspberry Pi, you just need to install telegraf (like mentioned above) and use the telegraf.conf file in this repository. Afterwards you need to adjust this entries in the telegraf.conf file:
+
+- [global_tags] (adjust the location & room)
+- [agent] (adjust hostname)
+- [inputs.socket_listener] + [inputs.socket_listener.tags] (comment those entries out if you install a additional Pi. These entries are only needed for the Pi "SuperNanny 2 (10.1.0.230) because the arduinos send their UDP requests directly to this pi (hardcoded on arduino))
+- [inputs.*] (adjust your http/s and ICMP requests for your needs)
