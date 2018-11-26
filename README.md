@@ -1,3 +1,10 @@
+# Introduction
+The following will explain how to install and configure the TICK stack used by Super Nanny.
+
+If you need a server, spin up one at digitalocean or equivalent.
+
+It is currently aimed at CentOS. If you want to do this on Ubuntu/Debian instead, please document and add your instructions to this README.
+
 # Install and Configure TICK Droplet
 ## Update the system
 ```bash
@@ -80,6 +87,7 @@ systemctl enable influxdb
 ```
 ### Create firewalld service
 ```
+# If you dont know how to use vi, try switching it out to nano
 vi /etc/firewalld/services/coderbunker-influxdb.xml
 ```
 ```
@@ -106,6 +114,11 @@ We need the following users:
  - chronograf - admin
 
 PW's are stored in the spreadsheet.
+
+Enter Influxdb shell
+```bash
+influx
+```
 
 Creating admin user:
 ```
