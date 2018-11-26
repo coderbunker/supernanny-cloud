@@ -105,7 +105,7 @@ firewall-cmd --reload
 We need the following users:
  - chronograf - admin
 
-PW's are stored in teh spreedshirt.
+PW's are stored in the spreadsheet.
 
 Creating admin user:
 ```
@@ -140,7 +140,7 @@ systemctl enable chronograf
 ## Configure Chronograf
 ### Manipulate chronograf's systemd service
 We need to manipulate chronografs systemd service. The reason for this is, that chronograf hasn't a config file. So it can be configured with system enviroment variables or with the command line parameters during startup.
-> We prefere comannd line parameters because they are presistent
+> We prefer command line parameters because they are persistent
 Copy the systemd file to the new location
 ```
 cp  /usr/lib/systemd/system/chronograf.service /etc/systemd/system/chronograf.service
