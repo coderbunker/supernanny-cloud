@@ -107,35 +107,64 @@ firewall-cmd --reload
 
 ## Configure InfluxDB
 ### Setup Databases
-
+Enter Influxdb shell
+```bash
+    influx
+```
+Add the following
+```
+    CREATE DATABASE "energy-monitor"
+    CREATE DATABASE "telegraf"
+    CREATE DATABASE "air-quality"
+```
 
 ### Adding users
-We need the following users:
+We need the following users with the following permissions:
  - chronograf - admin
+ - telegraf - telegraf(WRITE)
+ - energy-monitor - energy-monitor(WRITE)
+ - air-quality - air-quality(WRITE)
+ - grafana - all(READ)
 
 PW's are stored in the spreadsheet.
 
 Enter Influxdb shell
 ```bash
-influx
+    influx
 ```
 
 Creating admin user:
 ```
-CREATE USER <USER> WITH PASSWORD '<PASSWORD>' WITH ALL PRIVILEGES
+CREATE USER "<USER>" WITH PASSWORD '<PASSWORD>' WITH ALL PRIVILEGES
 ```
 
 Creating non-admin user:
 ```
-CREATE USER <USER> WITH PASSWORD '<PASSWORD>'
+CREATE USER "<USER>" WITH PASSWORD '<PASSWORD>'
 GRANT [READ,WRITE,ALL] ON <database_name> TO <username>
 ```
 More at: https://docs.influxdata.com/influxdb/v1.6/administration/authentication_and_authorization/
 
-
-### User - Permission matrix
-
-
+### Configure for access
+Find your influxdb config file:
+```bash
+    find / -name "influxdb.conf"
+```
+Open it and search for "http".
+Add the following lines (or just un-comment and edit the examples) to enable:
+```
+    enabled = true
+    bind-address = ":8086"
+    auth-enabled = true
+```
+Then restart influxd:
+```bash
+    systemctl restart influxdb.service
+```
+To test this is all now working, from your pi (not the server) run:
+```bash
+    curl -G http://YOURSERVERIP:8086/query -u chronograf:PASSWORD --data-urlencode "q=SHOW DATABASES"
+```
 
 ## Install Chronograf
 
