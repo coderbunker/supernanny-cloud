@@ -247,10 +247,27 @@ yum localinstall grafana-5.2.4-1.x86_64.rpm
 systemctl enable grafana-server
 systemctl start grafana-server
 ```
+## Create firewall service
+If you dont know how to use vi, try switching it out to nano
+vi /etc/firewalld/services/coderbunker-grafana.xml
+```
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>CoderBunker-Grafana</short>
+  <description>CoderBunker Grafana for the Super Nanny Project</description>
+  <port protocol="tcp" port="3000"/>
+  <port protocol="udp" port="3000"/>
+</service>
+```
+### Reload the firewall and enable the service permanent
+```
+firewall-cmd --reload
+firewall-cmd --add-service=coderbunker-grafana --zone=public --permanent
+firewall-cmd --reload
+```
 
 ## Configure Grafana
-
-
+Getting started with setting up the Grafana GUI is [http://docs.grafana.org/guides/getting_started/ "here"]. A proper explanation section is still required in this README.
 
 ## Configure SELinux for the droplet
 We need to enable the following selinux booleans:
