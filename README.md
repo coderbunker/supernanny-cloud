@@ -95,7 +95,7 @@ vi /etc/firewalld/services/coderbunker-influxdb.xml
 <service>
   <short>CoderBunker-InfluxDB</short>
   <description>CoderBunker InfluxDB for the Super Nanny Project</description>
-  <port protocol="tcp" port="8066"/>
+  <port protocol="tcp" port="8086"/>
 </service>
 ```
 ### Reload the firewall and enable the service permanent
