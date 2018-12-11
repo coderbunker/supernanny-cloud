@@ -308,7 +308,7 @@ firewall-cmd --reload
 ```
 
 ## Configure Grafana
-Getting started with setting up the Grafana GUI is [http://docs.grafana.org/guides/getting_started/ "here"]. A proper explanation section is still required in this README.
+Getting started with setting up the Grafana GUI is [here](http://docs.grafana.org/guides/getting_started/). A proper explanation section is still required in this README.
 
 ## Configure SELinux for the droplet
 We need to enable the following selinux booleans:
