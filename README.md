@@ -177,11 +177,44 @@ yum install chronograf --enablerepo=influxdb
 systemctl start chronograf
 systemctl enable chronograf
 ```
-
+### Create firewalld service
+```
+# If you dont know how to use vi, try switching it out to nano
+vi /etc/firewalld/services/coderbunker-cronograph.xml
+```
+```
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>CoderBunker-Cronograf</short>
+  <description>CoderBunker Cronograf for the Super Nanny Project</description>
+  <port protocol="tcp" port="8888"/>
+  <port protocol="udp" port="8888"/>
+</service>
+```
+### Reload the firewall and enable the service permanent
+```
+firewall-cmd --reload
+firewall-cmd --add-service=coderbunker-cronograph --zone=public --permanent
+firewall-cmd --reload
+```
 
 ## Configure Chronograf
+### Set up OAuth 2.0 authentication
+Firstly Chronograf has no login as default, so if you don't do this, anyone can have access to the user admin panel.
+You have a [choice of providers](https://docs.influxdata.com/chronograf/v1.7/administration/managing-security/#oauth-2-0-providers) bit this example will be for github.
+
+Follow the [official guide](https://docs.influxdata.com/chronograf/v1.7/administration/managing-security/#configuring-github-authentication) to get the environment variables:
+```
+    AUTH_DURATION
+    TOKEN_SECRET
+    GH_CLIENT_ID
+    GH_CLIENT_SECRET
+    GH_ORGS
+```
+The `GH_ORGS` variable limits the people who can access the site, it is vital to have this set as if not then anyone can simply log on. The downside is that you need to make sure you grant /request access to that organisation for that app when you log in, or it will not work. (See: https://github.com/influxdata/chronograf/issues/4575)
+
 ### Manipulate chronograf's systemd service
-We need to manipulate chronografs systemd service. The reason for this is, that chronograf hasn't a config file. So it can be configured with system enviroment variables or with the command line parameters during startup.
+We need to manipulate chronografs systemd service. The reason for this is, that chronograf hasn't a config file. So it can be configured with system environment variables or with the command line parameters during startup.
 > We prefer command line parameters because they are persistent
 Copy the systemd file to the new location
 ```
@@ -190,6 +223,10 @@ cp  /usr/lib/systemd/system/chronograf.service /etc/systemd/system/chronograf.se
 Manipulate the new systemd file as follows:
 ```
 vi /etc/systemd/system/chronograf.service
+```
+To be the following: 
+(Make sure that you populate HOST, TOKEN_SECRET, GH_CLIENT_ID, GH_CLIENT_SECRET, GH_ORGS)
+```
 
 # If you modify this, please also make sure to edit init.sh
 
@@ -202,10 +239,15 @@ After=network-online.target
 User=chronograf
 Group=chronograf
 #Environment="HOST=0.0.0.0"
-Environment="HOST=127.0.0.1"
+Environment="HOST=SERVERHOSTNAME"
 Environment="PORT=8888"
 Environment="BOLT_PATH=/var/lib/chronograf/chronograf-v1.db"
 Environment="CANNED_PATH=/usr/share/chronograf/canned"
+Environment="AUTH_DURATION=1h"
+Environment="TOKEN_SECRET=****************"
+Environment="GH_CLIENT_ID=****************"
+Environment="GH_CLIENT_SECRET=************"
+Environment="GH_ORGS=YOURORG"
 EnvironmentFile=-/etc/default/chronograf
 ExecStart=/usr/bin/chronograf $CHRONOGRAF_OPTS
 KillMode=control-group
@@ -218,8 +260,7 @@ WantedBy=multi-user.target
 Reload systemd and activate the changes
 ```
 systemctl daemon-reload
-systemctl enable chronograf
-systemctl start chronograf
+systemctl restart chronograf
 ```
 
 ### Create nginx config for chronograf
