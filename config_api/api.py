@@ -8,11 +8,13 @@ logger = logging.getLogger('get.arduino.config')
 
 class ArduinoDataTransferObj():
     location = ''
+    influx_bd_host = ''
+    quality_port = 0
+    power_port = 0
     room = ''
     mac = ''
     sensor_type = ''
-    port = ''
-    offset_temperature = 0
+    offset_temparature = 0
     offset_humidity = 0
 
 def init_logger():
@@ -31,21 +33,23 @@ def getJsonConfig():
 
 def getJsonDataTransferObj(arduinoMac):
     logger.info('Get configuration for ' + arduinoMac)
-    piConfig = config['arduinoConfigs']
+    piConfig = config
     arduino_dto = None 
     for room in piConfig['rooms']:
-        for arduino in room['arduinos']:
+        for arduino in room['devices']:
             if arduino['mac'] == arduinoMac:
                 arduino_dto = ArduinoDataTransferObj
                 arduino_dto.location = piConfig['location']
+                arduino_dto.influx_bd_host = piConfig['influx_bd_host']
+                arduino_dto.quality_port = piConfig['quality_port']
+                arduino_dto.power_port = piConfig['power_port']
                 arduino_dto.room = room['name']
                 arduino_dto.mac = arduinoMac
                 arduino_dto.sensor_type = arduino['sensor_type']
-                arduino_dto.port = arduino['port']
 
                 # TODO: Is there any possibility to remove hardcoded values?
                 if arduino_dto.sensor_type == 'quality':
-                    arduino_dto.offset_temperature = arduino['offset_temperature']
+                    arduino_dto.offset_temparature = arduino['offset_temperature']
                     arduino_dto.offset_humidity = arduino['offset_humidity']
 
                 logger.info('Configuration for ' + arduinoMac + ' found')
