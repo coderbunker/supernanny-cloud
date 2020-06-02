@@ -1,0 +1,28 @@
+#this file has to be deployed at /etc/default/telegraf
+#host info
+MACHINE_NAME=""
+LOCATION=""
+ROOM=""
+
+DB_URL = "https://influxdb01.monitor.agora-space.com:8066"
+
+
+#telegraf db information
+
+TELEGRAF_DB="telegraf"
+TELEGRAF_USERNAME="telegraf"
+TELEGRAF_PASSWORD="cookiesPancakes@work"
+
+
+#air-quality db information
+
+AIR_QUALITY_DB="air-quality"
+AIR_QUALITY_USERNAME="telegraf"
+AIR_QUALITY_PASSWORD="cookiesPancakes@work"
+
+
+#energy-monitor
+
+ENERGY_MONITOR_DB="energy-monitor"
+ENERGY_MONITOR_USERNAME="energy-monitor"
+ENERGY_MONITOR_PASSWORD="ChoendSelberOebbisWehle"

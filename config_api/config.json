@@ -1,41 +1,41 @@
 {
-    "arduinoConfigs": {
-        "location":"bunker",
-        "rooms" : [
-            {
-                "name": "kitchen",
-                "arduinos": [
-                    {
-                        "mac": "1",
-                        "sensor_type": "quality",
-                        "port": "123",
-                        "offset_temperature": 20,
-                        "offset_humidity": 20
-                    },
-                    {
-                        "mac": "2",
-                        "sensor_type": "power",
-                        "port": "321"
-                    }
-                ]
-            },
-            {
-                "name": "office",
-                "arduinos": [
-                    {
-                        "mac": "3",
-                        "sensor_type": "quality",
-                        "port": "123",
-                        "offset_temperature": 20,
-                        "offset_humidity": 20
-                    },
-                    {
-                        "mac": "4",
-                        "sensor_type": "power",
-                        "port": "321"
-                    }
-                ]
-            }
+  "arduinoConfigs": {
+    "location": "bunker",
+    "rooms": [
+      {
+        "name": "kitchen",
+        "arduinos": [
+          {
+            "mac": "1",
+            "sensor_type": "quality",
+            "port": "123",
+            "offset_temperature": 20,
+            "offset_humidity": 20
+          },
+          {
+            "mac": "2",
+            "sensor_type": "power",
+            "port": "321"
+          }
         ]
-    }
+      },
+      {
+        "name": "office",
+        "arduinos": [
+          {
+            "mac": "3",
+            "sensor_type": "quality",
+            "port": "123",
+            "offset_temperature": 20,
+            "offset_humidity": 20
+          },
+          {
+            "mac": "4",
+            "sensor_type": "power",
+            "port": "321"
+          }
+        ]
+      }
+    ]
+  }
 }
